@@ -1,0 +1,97 @@
+package com.example.kineo
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.kineo.ui.theme.InicioScreen
+import com.example.kineo.ui.theme.elementos.KineoTheme
+import com.example.kineo.navigation.Pantalla
+import com.example.kineo.ui.*
+import com.example.kineo.data.registrarPaciente
+
+import com.example.kineo.data.iniciarSesion
+import com.example.kineo.ui.theme.*
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            KineoTheme {
+                var pantalla by remember { mutableStateOf<Pantalla>(Pantalla.Inicio) }
+                var errorRegistro by remember { mutableStateOf<String?>(null) }
+                var errorLogin by remember { mutableStateOf<String?>(null) }
+
+                when (pantalla) {
+                    Pantalla.Inicio -> InicioScreen(
+                        onRegistro = { pantalla = Pantalla.Registro },
+                        onLogin = { pantalla = Pantalla.Login }
+                    )
+
+                    Pantalla.Registro -> RegistroScreen(
+                        error = errorRegistro,
+                        onCrearCuenta = { nombre, email, password ->
+                            registrarPaciente(
+                                nombre, email, password,
+                                onExito = {
+                                    errorRegistro = null
+                                    pantalla = Pantalla.Dashboard
+                                },
+                                onError = { errorRegistro = it }
+                            )
+                        },
+                        onVolver = { pantalla = Pantalla.Inicio }
+                    )
+
+                    Pantalla.Login -> LoginScreen(
+                        error = errorLogin,
+                        onAceptar = { email, password ->
+                        iniciarSesion(
+                            email, password,
+                            onExito = { errorLogin = null; pantalla = Pantalla.Dashboard },
+                            onError = { errorLogin = it }
+                        )
+                    },
+                        onVolver = { pantalla = Pantalla.Inicio })
+
+
+                    Pantalla.Dashboard -> DashboardScreen(
+                        onPerfil = { pantalla = Pantalla.Perfil }
+                    )
+
+                    Pantalla.Perfil -> PerfilScreen(
+                        onCambiarPassword = { pantalla = Pantalla.ModificarPassword },
+                        onVolver = { pantalla = Pantalla.Dashboard }
+                    )
+
+                    Pantalla.ModificarPassword -> ModificarPasswordScreen(
+                        onVolver = { pantalla = Pantalla.Perfil }
+                    )
+
+                    else -> { /* Dashboard, etc. à brancher ensuite */ }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello $name!",
+        modifier = modifier
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    KineoTheme {
+        Greeting("Android")
+    }
+}
