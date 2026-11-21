@@ -83,12 +83,12 @@ fun RegistroScreen(
 //    ejercicios.forEach { BotonGrande(it.nombre) { onDetalle(it.id) } }
 //}
 
-@Composable
-fun DetalleScreen(ejercicio: Ejercicio?, onVolver: () -> Unit) =
-    EsqueletoPantalla(ejercicio?.nombre ?: "Ejercicio no encontrado") {
-        Text(ejercicio?.instrucciones ?: "")
-        BotonGrande("Volver", onVolver)
-    }
+//@Composable
+//fun DetalleScreen(ejercicio: Ejercicio?, onVolver: () -> Unit) =
+//    EsqueletoPantalla(ejercicio?.nombre ?: "Ejercicio no encontrado") {
+//        Text(ejercicio?.instrucciones ?: "")
+//        BotonGrande("Volver", onVolver)
+//    }
 
 @Composable
 fun PerfilScreen(onVolver: () -> Unit, onModificar: () -> Unit) =
