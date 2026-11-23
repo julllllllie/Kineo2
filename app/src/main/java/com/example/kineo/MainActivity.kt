@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                 var errorRegistro by remember { mutableStateOf<String?>(null) }
                 var errorLogin by remember { mutableStateOf<String?>(null) }
 
-                when (pantalla) {
+                when (val p = pantalla) {
                     Pantalla.Inicio -> InicioScreen(
                         onRegistro = { pantalla = Pantalla.Registro },
                         onLogin = { pantalla = Pantalla.Login }
@@ -51,17 +51,23 @@ class MainActivity : ComponentActivity() {
                     Pantalla.Login -> LoginScreen(
                         error = errorLogin,
                         onAceptar = { email, password ->
-                        iniciarSesion(
-                            email, password,
-                            onExito = { errorLogin = null; pantalla = Pantalla.Dashboard },
-                            onError = { errorLogin = it }
-                        )
-                    },
-                        onVolver = { pantalla = Pantalla.Inicio })
-
+                            iniciarSesion(
+                                email, password,
+                                onExito = { errorLogin = null; pantalla = Pantalla.Dashboard },
+                                onError = { errorLogin = it }
+                            )
+                        },
+                        onVolver = { pantalla = Pantalla.Inicio }
+                    )
 
                     Pantalla.Dashboard -> DashboardScreen(
-                        onPerfil = { pantalla = Pantalla.Perfil }
+                        onPerfil = { pantalla = Pantalla.Perfil },
+                        onEjercicio = { id -> pantalla = Pantalla.Detalle(id) }
+                    )
+
+                    is Pantalla.Detalle -> DetalleScreen(
+                        asignacionId = p.asignacionId,
+                        onBack = { pantalla = Pantalla.Dashboard }
                     )
 
                     Pantalla.Perfil -> PerfilScreen(
@@ -72,8 +78,6 @@ class MainActivity : ComponentActivity() {
                     Pantalla.ModificarPassword -> ModificarPasswordScreen(
                         onVolver = { pantalla = Pantalla.Perfil }
                     )
-
-                    else -> { /* Dashboard, etc. à brancher ensuite */ }
                 }
             }
         }
