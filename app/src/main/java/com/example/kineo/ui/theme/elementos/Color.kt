@@ -2,10 +2,9 @@ package com.example.kineo.ui.theme.elementos
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val OrangePrincipal = Color(0xFFFF7A1A)
+val OrangeFonce     = Color(0xFFE65C00)
+val OrangeClair     = Color(0xFFFFE0C2)
+val CremeFond       = Color(0xFFFFF8F2)
+val CremeFonds      = Color(0xFFFFEFE0)
+val BrunTexte       = Color(0xFF3B2314)
