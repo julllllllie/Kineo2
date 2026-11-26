@@ -4,10 +4,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
-fun registrarPaciente(
+fun registrarUsuario(
     nombre: String,
     email: String,
     password: String,
+    role : String,
     onExito: () -> Unit,
     onError: (String) -> Unit
 ) {
@@ -16,25 +17,19 @@ fun registrarPaciente(
 
     auth.createUserWithEmailAndPassword(email, password)
         .addOnSuccessListener { result ->
-            val uid = result.user?.uid
-            if (uid == null) {
-                onError("Error user")
-                return@addOnSuccessListener
-            }
-
-            val paciente = hashMapOf(
+            val uid = result.user?.uid ?: return@addOnSuccessListener
+            val datos = hashMapOf<String, Any>(
                 "nombre" to nombre,
                 "email" to email,
-                "creadoEn" to FieldValue.serverTimestamp()
+                "role" to role
             )
 
-            db.collection("users")
-                .document(uid)
-                .set(paciente)
+            db.collection("users").document(uid)
+                .set(datos)
                 .addOnSuccessListener { onExito() }
-                .addOnFailureListener { onError(it.message ?: "Error Firestore") }
+                .addOnFailureListener { onError(it.message ?: "Error") }
         }
-        .addOnFailureListener { onError(it.message ?: "Error registro") }
+        .addOnFailureListener { onError(it.message ?: "Error") }
 }
 fun iniciarSesion(
     email: String,

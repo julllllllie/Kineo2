@@ -29,7 +29,7 @@ fun EsqueletoPantalla(titulo: String, content: @Composable ColumnScope.() -> Uni
     }
 }
 @Composable
-fun InicioScreen(onRegistro: () -> Unit, onLogin: () -> Unit) {
+fun InicioScreen(onRegistro: () -> Unit, onLogin: () -> Unit, onRegistroMedico: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
 
         // Photo de fond
@@ -83,6 +83,10 @@ fun InicioScreen(onRegistro: () -> Unit, onLogin: () -> Unit) {
             ) {
                 Text("Iniciar sesión", fontWeight = FontWeight.Bold)
             }
+
+            Spacer(Modifier.height(16.dp))
+
+            TextButton(onClick = onRegistroMedico) { Text("Soy medico") }
 
             Spacer(Modifier.height(48.dp))
         }

@@ -19,7 +19,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun RegistroScreen(
     error: String?,
-    onCrearCuenta: (String, String, String) -> Unit,
+    onCrearCuenta: (String, String, String, String) -> Unit,
+    esMedico: Boolean = false,
     onVolver: () -> Unit
 ) {
 
@@ -34,7 +35,7 @@ fun RegistroScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        Text("Registro", style = MaterialTheme.typography.headlineMedium)
+        Text(if (esMedico) "Registro médico" else "Registro", style = MaterialTheme.typography.headlineMedium)
 
         OutlinedTextField(
             value = nombre,
@@ -68,7 +69,7 @@ fun RegistroScreen(
         }
 
         Button(
-            onClick = { onCrearCuenta(nombre.trim(), email.trim(), password) },
+            onClick = { onCrearCuenta(nombre.trim(), email.trim(), password, if (esMedico) "medico" else "paciente") },
             enabled = nombre.isNotBlank() && email.isNotBlank() && password.length >= 6,
             modifier = Modifier.fillMaxWidth()
         ) {

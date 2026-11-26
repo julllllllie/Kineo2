@@ -15,7 +15,7 @@ import com.example.kineo.ui.theme.InicioScreen
 import com.example.kineo.ui.theme.elementos.KineoTheme
 import com.example.kineo.navigation.Pantalla
 import com.example.kineo.ui.*
-import com.example.kineo.data.registrarPaciente
+import com.example.kineo.data.*
 
 import com.example.kineo.data.iniciarSesion
 import com.example.kineo.ui.theme.*
@@ -37,17 +37,33 @@ class MainActivity : ComponentActivity() {
                     when (val p = pantalla) {
                         Pantalla.Inicio -> InicioScreen(
                             onRegistro = { pantalla = Pantalla.Registro },
+                            onRegistroMedico = { pantalla = Pantalla.RegistroMedico },
                             onLogin = { pantalla = Pantalla.Login }
                         )
-
                         Pantalla.Registro -> RegistroScreen(
                             error = errorRegistro,
-                            onCrearCuenta = { nombre, email, password ->
-                                registrarPaciente(
-                                    nombre, email, password,
+                            esMedico = false,
+                            onCrearCuenta = { nombre, email, password, role ->
+                                registrarUsuario(
+                                    nombre, email, password,role,
                                     onExito = {
                                         errorRegistro = null
                                         pantalla = Pantalla.Dashboard
+                                    },
+                                    onError = { errorRegistro = it }
+                                )
+                            },
+                            onVolver = { pantalla = Pantalla.Inicio }
+                        )
+                        Pantalla.RegistroMedico -> RegistroScreen(
+                            error = errorRegistro,
+                            esMedico = true,
+                            onCrearCuenta = { nombre, email, password, role ->
+                                registrarUsuario(
+                                    nombre, email, password, role,
+                                    onExito = {
+                                        errorRegistro = null
+                                        pantalla = Pantalla.DashboardMedico
                                     },
                                     onError = { errorRegistro = it }
                                 )
@@ -85,6 +101,7 @@ class MainActivity : ComponentActivity() {
                         Pantalla.ModificarPassword -> ModificarPasswordScreen(
                             onVolver = { pantalla = Pantalla.Perfil }
                         )
+                    else -> { }
                     }
                 }
             }

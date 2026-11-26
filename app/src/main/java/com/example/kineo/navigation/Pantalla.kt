@@ -9,4 +9,8 @@ sealed interface Pantalla {
     data class Detalle(val asignacionId: String) : Pantalla
     data object Perfil : Pantalla
     data object ModificarPassword : Pantalla
+
+    data object RegistroMedico : Pantalla
+
+    data object DashboardMedico : Pantalla
 }

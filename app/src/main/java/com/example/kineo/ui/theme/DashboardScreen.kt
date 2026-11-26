@@ -133,7 +133,7 @@ fun Saludo(nombre: String?) {
 @Composable
 fun BotonPerfil(onPerfil: () -> Unit) {
     Button(onClick = onPerfil) {
-        Text("Mi perfil")
+        Text("Mi per    fil")
     }
 }
 

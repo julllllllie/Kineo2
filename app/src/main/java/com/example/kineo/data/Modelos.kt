@@ -2,7 +2,7 @@ package com.example.kineo.data
 
 import com.google.firebase.firestore.DocumentId
 
-data class Paciente(val nombre: String, val email: String, val medico: String)
+data class Paciente(val nombre: String, val email: String, val role: String)
 
 data class Ejercicio(
     @DocumentId val id: String = "",
