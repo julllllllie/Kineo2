@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -64,11 +63,10 @@ private fun DetalleContenido(item: EjercicioAsignado) {
     val ej = item.ejercicio
     val asig = item.asignacion
 
-    // Titre
     Text(ej.title, style = MaterialTheme.typography.headlineLarge)
     Spacer(Modifier.height(16.dp))
 
-    // Vidéo
+
     val videoId = extractYouTubeId(ej.videoUrl)
     if (videoId != null) {
         YouTubePlayer(
@@ -82,16 +80,19 @@ private fun DetalleContenido(item: EjercicioAsignado) {
     }
     Spacer(Modifier.height(16.dp))
 
-    // Description
+    // description
     Text(ej.descripcion, style = MaterialTheme.typography.bodyLarge)
     Spacer(Modifier.height(24.dp))
 
-    // Programme (depuis asignaciones)
+    Chrono()
+
+
+    // programme
     Text("Programme", style = MaterialTheme.typography.titleLarge)
     Spacer(Modifier.height(8.dp))
     Text("Séries : ${asig.sets}")
     Text("Répétitions : ${asig.reps}")
-    if (asig.time>0) Text("Temps : ${asig.time}")
+    if (asig.time>0) Text("Temps : ${asig.time} s")
     if (asig.notes.isNotBlank()) {
         Spacer(Modifier.height(12.dp))
         Text("Notes", style = MaterialTheme.typography.titleMedium)
@@ -99,17 +100,28 @@ private fun DetalleContenido(item: EjercicioAsignado) {
     }
     Spacer(Modifier.height(24.dp))
 
-    // Image(s) en bas
-    val resId = rememberDrawableId(ej.img)
-    if (resId != 0) {
-        Image(
-            painter = painterResource(id = resId),
-            contentDescription = ej.title,
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp))
-        )
+
+    // images : 2 par ligne
+    ej.img.chunked(2).forEach { rowImages ->
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            rowImages.forEach { imgName ->
+                ExerciceImage(
+                    name = imgName,
+                    contentDescription = ej.title,
+                    modifier = Modifier
+                        .weight(1f)
+                        .aspectRatio(1f)
+                )
+            }
+
+            if (rowImages.size == 1) {
+                Spacer(Modifier.weight(1f))
+            }
+        }
+        Spacer(Modifier.height(12.dp))
     }
 }
 
@@ -134,3 +146,20 @@ fun YouTubePlayer(videoId: String, modifier: Modifier = Modifier) {
 fun extractYouTubeId(url: String): String? =
     Regex("(?:youtu\\.be/|v=|embed/|shorts/)([A-Za-z0-9_-]{11})")
         .find(url)?.groupValues?.get(1)
+
+
+@Composable
+private fun ExerciceImage(name: String, contentDescription: String,modifier: Modifier = Modifier
+) {
+    val resId = rememberDrawableId(name)
+    if (resId != 0) {
+        Image(
+            painter = painterResource(id = resId),
+            contentDescription = contentDescription,
+            contentScale = ContentScale.FillWidth,
+            modifier = modifier.clip(RoundedCornerShape(12.dp))
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(12.dp))
+        )
+    }
+}

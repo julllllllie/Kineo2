@@ -33,10 +33,10 @@ fun ModificarPasswordScreen(onVolver: () -> Unit) {
 
         mensaje?.let { Text(it) }
 
-        Button(onClick = {
+        BotonGrande(onClick = {
             val user = FirebaseAuth.getInstance().currentUser
             val email = user?.email
-            if (user == null || email == null) return@Button
+            if (user == null || email == null) return@BotonGrande
             val credencial = EmailAuthProvider.getCredential(email, actual)
             user.reauthenticate(credencial)
                 .addOnSuccessListener {
@@ -45,7 +45,7 @@ fun ModificarPasswordScreen(onVolver: () -> Unit) {
                         .addOnFailureListener { mensaje = it.message }
                 }
                 .addOnFailureListener { mensaje = "Mot de passe actuel incorrect." }
-        }) { Text("Valider") }
+        },texto = "Confirmar")
 
         TextButton(onClick = onVolver) { Text("Retour") }
     }

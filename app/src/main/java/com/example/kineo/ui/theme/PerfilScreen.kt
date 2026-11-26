@@ -2,12 +2,12 @@ package com.example.kineo.ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 
-
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.example.kineo.ui.theme.BotonGrande
 
 @Composable
 fun PerfilScreen(onCambiarPassword: () -> Unit, onVolver: () -> Unit) {
@@ -29,7 +29,7 @@ fun PerfilScreen(onCambiarPassword: () -> Unit, onVolver: () -> Unit) {
         Text("Nom : ${nombre ?: "..."}")
         Text("Email : ${user?.email ?: "..."}")
 
-        Button(onClick = onCambiarPassword) { Text("Modifier le mot de passe") }
+        BotonGrande(texto = "Cambiar la contraseña", onClick = onCambiarPassword)
         TextButton(onClick = onVolver) { Text("Retour") }
     }
 }

@@ -66,6 +66,8 @@ fun DashboardScreen(
 
                 Spacer(Modifier.height(24.dp))
 
+
+
                 if (ejercicios.isEmpty()) {
                     Text("Ningún ejercicio asignado por el momento.")
                 } else {
@@ -90,7 +92,7 @@ fun EjercicioCard(item: EjercicioAsignado, onClick: () -> Unit) {
             modifier = Modifier.padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val resId = rememberDrawableId(item.ejercicio.img)
+            val resId = rememberDrawableId(item.ejercicio.img.firstOrNull() ?: "")
 
             if (resId != 0) {
                 Image(
@@ -131,7 +133,7 @@ fun Saludo(nombre: String?) {
 @Composable
 fun BotonPerfil(onPerfil: () -> Unit) {
     Button(onClick = onPerfil) {
-        Text("Mon profil")
+        Text("Mi perfil")
     }
 }
 

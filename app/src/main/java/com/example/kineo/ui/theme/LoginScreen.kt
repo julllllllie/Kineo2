@@ -1,21 +1,15 @@
 package com.example.kineo.ui
 
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.kineo.ui.theme.BotonGrande
 
 @Composable
 fun LoginScreen(
@@ -55,14 +49,13 @@ fun LoginScreen(
             Text(error, color = MaterialTheme.colorScheme.error)
         }
 
-        Button(
+        BotonGrande(
+            texto = "Aceptar",
             onClick = { onAceptar(email.trim(), password) },
             enabled = email.isNotBlank() && password.isNotBlank(),
             modifier = Modifier.fillMaxWidth()
-        ) { Text("Aceptar") }
+        )
 
-        Button(onClick = onVolver, modifier = Modifier.fillMaxWidth()) {
-            Text("Volver")
-        }
+        BotonGrande(texto = "Volver",onClick = onVolver, modifier = Modifier.fillMaxWidth())
     }
 }

@@ -9,7 +9,7 @@ data class Ejercicio(
     val title: String = "",
     val descripcion: String = "",
     val categoria: String = "",
-    val img: String = "",
+    val img: List<String> = emptyList(),
     val videoUrl: String = ""
 )
 
